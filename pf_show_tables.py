@@ -42,11 +42,13 @@ ip           = ''
 total_block = 0
 for logline in range(len(blocked_ips)):
     if ('/(match) block in on') in blocked_ips[logline]: # if an inbound block was logged
-        ip = blocked_ips[logline].split()[7]             # retrieve ip.port
+        ip = blocked_ips[logline].split()[7]             # retrieve source ip
+        ip2 = blocked_ips[logline].split()[9]            # retrieve dest ip
         total_block += 1
 
         if not 'icmp' in blocked_ips[logline]:
-            port = ip.split('.')[4]
+            port = ip2.split('.')[4]
+            port = port[:-1]
         else:
             port = 'icmp'
 
